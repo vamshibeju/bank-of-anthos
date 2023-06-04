@@ -1,0 +1,38 @@
+version: "3"
+services:
+  frontend:
+    image: us-central1-docker.pkg.dev/bank-of-anthos-ci/bank-of-anthos/frontend:v0.6.0@sha256:eaa077984dd8f741fc55cf75d4d3bb3f251ddb19d2b9c15cb3aea287826679d2
+    ports:
+      - "8080:8080"
+    labels:
+      application: bank-of-anthos
+      environment: development
+      team: frontend
+      tier: web
+    environment:
+      - VERSION=v0.6.0
+      - PORT=8080
+      - ENABLE_TRACING=false
+      - SCHEME=http
+      - LOG_LEVEL=info
+      - DEFAULT_USERNAME
+      - DEMO_LOGIN_USERNAME=${DEMO_LOGIN_USERNAME}
+      - DEFAULT_PASSWORD=${DEFAULT_PASSWORD}
+      - REGISTERED_OAUTH_CLIENT_ID=${REGISTERED_OAUTH_CLIENT_ID}
+      - ALLOWED_OAUTH_REDIRECT_URI=${ALLOWED_OAUTH_REDIRECT_URI}
+      - PUB_KEY_PATH=jwtRS256.key.pem
+    volumes:
+      - ./jwtRS256.key.pem:/app/jwtRS256.key.pem
+  loadgenerator:
+    image: us-central1-docker.pkg.dev/bank-of-anthos-ci/bank-of-anthos/loadgenerator:v0.6.0@sha256:29b38aad1df4f7ad3293d6630b8c4bda102187b2cd3e2eff07a96b18732d2045
+    labels:
+      environment: development
+      team: loadgenerator
+      tier: test
+    environment:
+      - FRONTEND_ADDR=frontend:80
+      - USERS=5
+      - LOG_LEVEL=error
+
+
+

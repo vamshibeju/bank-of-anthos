@@ -1,0 +1,47 @@
+version: "3"
+services:
+  balancereader:
+    image: us-central1-docker.pkg.dev/bank-of-anthos-ci/bank-of-anthos/balancereader:v0.6.0@sha256:92b423f1c6e9b669b5e8a2256abdec832581e7fb04f862a84b4d8321b5609fcc
+    labels:
+      application: bank-of-anthos
+      environment: development
+      team: ledger
+      tier: backend
+    environment:
+      - VERSION=v0.6.0
+      - PORT=8080
+      - ENABLE_TRACING=false
+      - ENABLE_METRICS=false
+      - JVM_OPTS=-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Xms256m -Xmx512m
+      - LOG_LEVEL=info
+      - BALANCES_API_ADDR=""
+      - PUB_KEY_PATH=""
+      - LEDGER_API_ADDR=""
+    volumes:
+      - ./tmp:/tmp
+      - ./keys:/tmp/.ssh:ro
+
+  ledgerwriter:
+    image: us-central1-docker.pkg.dev/bank-of-anthos-ci/bank-of-anthos/ledgerwriter:v0.6.0@sha256:daad0e86485b97a942ca4c977efa1adee6b0149ea3c71f07df747a3f73f3b28e
+    labels:
+      application: bank-of-anthos
+      environment: development
+      team: ledger
+      tier: backend
+    environment:
+      - VERSION=v0.6.0
+      - PORT=8080
+      - ENABLE_TRACING=false
+      - ENABLE_METRICS=false
+      - JVM_OPTS=-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Xms256m -Xmx512m
+      - LOG_LEVEL=info
+      - LOCAL_ROUTING_NUM=""
+      - BALANCES_API_ADDR=""
+      - PUB_KEY_PATH=""
+      - SPRING_DATASOURCE_URL="jdbc:postgresql://ledger-db:5432/postgresdb"
+      - SPRING_DATASOURCE_USERNAME="admin"
+      - SPRING_DATASOURCE_PASSWORD="password"
+    volumes:
+      - ./tmp:/tmp
+      - ./keys:/keys
+
