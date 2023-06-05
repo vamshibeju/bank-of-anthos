@@ -101,8 +101,10 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://ledger-db:5432/postgresdb
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=password
+       - GOOGLE_APPLICATION_CREDENTIALS=./keys/credentials.json
     volumes:
       - ./tmp:/tmp
-      - ./keys:/tmp/.ssh:ro
+      - ./keys:/keys
+      - ./keys/credentials.json:/keys/credentials.json:ro
     ports:
       - 8083:8080
