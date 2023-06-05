@@ -3,7 +3,7 @@ services:
   frontend:
     image: us-central1-docker.pkg.dev/bank-of-anthos-ci/bank-of-anthos/frontend:v0.6.0@sha256:eaa077984dd8f741fc55cf75d4d3bb3f251ddb19d2b9c15cb3aea287826679d2
     ports:
-      - "8080:8080"
+      - "80:8080"
     labels:
       application: bank-of-anthos
       environment: development
@@ -15,7 +15,7 @@ services:
       - ENABLE_TRACING=false
       - SCHEME=http
       - LOG_LEVEL=info
-        #- DEFAULT_USERNAME
+      - DEFAULT_USERNAME=admin
       - DEMO_LOGIN_USERNAME=admin
       - DEFAULT_PASSWORD=password
       - REGISTERED_OAUTH_CLIENT_ID=${REGISTERED_OAUTH_CLIENT_ID}
