@@ -25,9 +25,9 @@ services:
       - CONTACTS_API_ADDR=""
       - USERSERVICE_API_ADDR=""
     networks:
-      - my-network
+       my-network:
           aliases:
-           - frontend
+            - frontend
     volumes:
       - ./jwtRS256.key:/app/jwtRS256.key
   loadgenerator:
@@ -57,9 +57,9 @@ services:
       - TOKEN_EXPIRY_SECONDS=1200
       - ACCOUNTS_DB_URI=postgresql://accounts-admin:accounts-pwd@accounts-db:5432/accounts-db
     networks:
-      - my-network
-        aliases:
-           - userservice
+       my-network:
+          aliases:
+            - userservice
     ports:
       - "8081:8080"
     volumes:
@@ -80,9 +80,9 @@ services:
       - ACCOUNTS_DB_URI=postgresql://accounts-admin:accounts-pwd@accounts-db:5432/accounts-db
       - PUB_KEY_PATH=./public_key.pem
     networks:
-      - my-network
-        aliases:
-           - contacts
+      my-network:
+          aliases:
+            - contacts
     ports:
       - "8082:8080"
     volumes:
