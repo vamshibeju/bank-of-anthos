@@ -3,7 +3,7 @@ services:
   frontend:
     image: us-central1-docker.pkg.dev/bank-of-anthos-ci/bank-of-anthos/frontend:v0.6.0@sha256:eaa077984dd8f741fc55cf75d4d3bb3f251ddb19d2b9c15cb3aea287826679d2
     ports:
-      - "8080:8080"
+      - "80:8080"
     labels:
       application: bank-of-anthos
       environment: development
@@ -20,9 +20,11 @@ services:
       - DEFAULT_PASSWORD=password
       - REGISTERED_OAUTH_CLIENT_ID=${REGISTERED_OAUTH_CLIENT_ID}
       - ALLOWED_OAUTH_REDIRECT_URI=${ALLOWED_OAUTH_REDIRECT_URI}
-      - PUB_KEY_PATH=jwtRS256.key.pem
+      - PUB_KEY_PATH=jwtRS256.key
+      - CONTACTS_API_ADDR=""
+      - USERSERVICE_API_ADDR=""
     volumes:
-      - ./jwtRS256.key.pem:/app/jwtRS256.key.pem
+      - ./jwtRS256.key:/app/jwtRS256.key
   loadgenerator:
     image: us-central1-docker.pkg.dev/bank-of-anthos-ci/bank-of-anthos/loadgenerator:v0.6.0@sha256:29b38aad1df4f7ad3293d6630b8c4bda102187b2cd3e2eff07a96b18732d2045
     labels:
@@ -45,15 +47,15 @@ services:
       - PORT=8080
       - ENABLE_TRACING=false
       - LOG_LEVEL=info
-      - PRIV_KEY_PATH=./private_key.pem
-      - PUB_KEY_PATH=./public_key.pem
+      - PRIV_KEY_PATH=./jwtRS256.key
+      - PUB_KEY_PATH=./jwtRS256.key.pub
       - TOKEN_EXPIRY_SECONDS=1200
       - ACCOUNTS_DB_URI=postgresql://accounts-admin:accounts-pwd@accounts-db:5432/accounts-db
     ports:
       - "8081:8080"
     volumes:
-      - "./private_key.pem:/app/private_key.pem"
-      - "./public_key.pem:/app/public_key.pem"
+      - "./jwtRS256.key:/app/jwtRS256.key"
+      - "./jwtRS256.key.pub:/app/jwtRS256.key.pub"
   contacts:
     image: us-central1-docker.pkg.dev/bank-of-anthos-ci/bank-of-anthos/contacts:v0.6.0@sha256:9dbd79e095fec51e703467392423e0284038381bc740283eb0ec770053d3e545
     labels:
