@@ -47,7 +47,7 @@ services:
       - ./tmp:/tmp
       - ./keys:/tmp/.ssh:ro
     ports:
-      - 8085:8080
+      - 8083:8080
 
   balancereader:
     image: us-central1-docker.pkg.dev/bank-of-anthos-ci/bank-of-anthos/balancereader:v0.6.0@sha256:92b423f1c6e9b669b5e8a2256abdec832581e7fb04f862a84b4d8321b5609fcc
@@ -79,7 +79,7 @@ services:
       - ./keys:/keys
       - ./keys/credentials.json:/keys/credentials.json:ro
     ports:
-      - 8086:8080
+      - 8084:8080
 
   transactionhistory:
     image: us-central1-docker.pkg.dev/bank-of-anthos-ci/bank-of-anthos/transactionhistory:v0.6.0@sha256:c090ad19d0b7294f523c1d38097ab17168eb08c796b0b5097a4656bb4cb8371e
@@ -107,4 +107,4 @@ services:
       - ./keys:/keys
       - ./keys/credentials.json:/keys/credentials.json:ro
     ports:
-      - 8083:8080
+      - 8085:8080
