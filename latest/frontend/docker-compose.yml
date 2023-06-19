@@ -23,6 +23,8 @@ services:
       - PUB_KEY_PATH=jwtRS256.key.pem
     volumes:
       - ./jwtRS256.key.pem:/app/jwtRS256.key.pem
+        #networks:
+        # - mynetwork
   loadgenerator:
     image: us-central1-docker.pkg.dev/bank-of-anthos-ci/bank-of-anthos/loadgenerator:v0.6.0@sha256:29b38aad1df4f7ad3293d6630b8c4bda102187b2cd3e2eff07a96b18732d2045
     labels:
@@ -93,3 +95,9 @@ services:
       - "5432:5432"
         #volumes:
         # - postgres-data:/var/lib/postgresql/data
+networks:
+  mynetwork:
+    ipam:
+      config:
+        - subnet: 172.31.0.0/20
+
