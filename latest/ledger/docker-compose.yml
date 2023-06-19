@@ -38,7 +38,7 @@ services:
       - JVM_OPTS=-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Xms256m -Xmx512m
       - LOG_LEVEL=info
       - LOCAL_ROUTING_NUM=""
-      - BALANCES_API_ADDR=""
+      - BALANCES_API_ADDR="http://172.31.0.10:8084"
       - PUB_KEY_PATH=""
       - SPRING_DATASOURCE_URL=jdbc:postgresql://ledger-db:5432/postgresdb
       - SPRING_DATASOURCE_USERNAME=admin
@@ -79,13 +79,9 @@ services:
       - ./keys/credentials.json:/keys/credentials.json:ro
     ports:
       - 8084:8080
-  services:
-      balance_reader:
-        networks:
-          my_network:
-            ipv4_address: 172.31.0.10
-
-
+    networks:
+      my_network:
+        ipv4_address: 172.31.0.10
   transactionhistory:
     image: us-central1-docker.pkg.dev/bank-of-anthos-ci/bank-of-anthos/transactionhistory:v0.6.0@sha256:c090ad19d0b7294f523c1d38097ab17168eb08c796b0b5097a4656bb4cb8371e
     labels:
